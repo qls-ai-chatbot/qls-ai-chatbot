@@ -1,0 +1,15 @@
+assemble:
+    - from: batch
+      into: batch
+semantic-search-batch:
+    name: Semantic Search Batch
+    oAuthApplicationHeadlessServer: semantic-search-batch-oauth-application-headless-server
+    type: batch
+semantic-search-batch-oauth-application-headless-server:
+    .serviceAddress: localhost:8080
+    .serviceScheme: http
+    name: Semantic Search OAuth Application Headless Server
+    scopes:
+        - Liferay.Headless.Batch.Engine.everything
+        - Liferay.Search.Experiences.REST.everything
+    type: oAuthApplicationHeadlessServer
