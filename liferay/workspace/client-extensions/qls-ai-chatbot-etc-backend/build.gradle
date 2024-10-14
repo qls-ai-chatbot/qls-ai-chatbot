@@ -1,0 +1,52 @@
+buildscript {
+	dependencies {
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.defaults", version: "latest.release"
+		classpath group: "org.springframework.boot", name: "spring-boot-gradle-plugin", version: "2.7.18"
+		classpath group: "io.spring.gradle", name: "dependency-management-plugin", version: "1.0.15.RELEASE"
+	}
+
+	repositories {
+		maven {
+			url new File(rootProject.projectDir, "../../.m2-tmp")
+		}
+
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+	}
+}
+
+apply plugin: "com.liferay.source.formatter"
+apply plugin: "java-library"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+dependencies {
+	implementation group: "com.liferay", name: "com.liferay.client.extension.util.spring.boot", version: "latest.release"
+	implementation group: "com.liferay", name: "com.liferay.petra.string", version: "latest.release"
+	implementation group: "com.liferay", name: "org.apache.commons.logging", version: "1.2.LIFERAY-PATCHED-2"
+	implementation group: "net.datafaker", name: "datafaker", version: "1.9.0"
+	implementation group: "org.json", name: "json", version: "20231013"
+	implementation group: "org.springframework.boot", name: "spring-boot-starter-oauth2-resource-server"
+	implementation group: "org.springframework.boot", name: "spring-boot-starter-web"
+	implementation group: "org.springframework.boot", name: "spring-boot-starter-webflux"
+	
+	implementation group: "dev.langchain4j", name:"langchain4j", version: "0.35.0"
+	implementation group: "dev.langchain4j", name:"langchain4j-core", version: "0.35.0"
+	implementation group: "dev.langchain4j", name:"langchain4j-ollama", version: "0.35.0"
+	implementation group: "dev.langchain4j", name:"langchain4j-ollama-spring-boot-starter", version: "0.35.0"
+	
+	implementation group: "org.jsoup", name: "jsoup", version: "1.18.1"
+	
+}
+
+repositories {
+	maven {
+		url new File(rootProject.projectDir, "../../.m2-tmp")
+	}
+
+	maven {
+		url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+	}
+	
+}

@@ -1,0 +1,33 @@
+{
+    "kind": "Deployment",
+    "id": "txtai",
+    "strategy": {
+      "type": "Recreate"
+    },
+    "cpu": 12,
+    "memory": 16384,
+    "scale": 1,
+    "deploy": true,
+    "ports": [
+      {
+        "port": 8000,
+        "external": false
+      }
+    ],
+    "readinessProbe": {
+      "tcpSocket": {
+        "port": 8000
+      },
+      "initialDelaySeconds": 60,
+      "timeoutSeconds": 10,
+      "failureThreshold": 12
+    },
+    "livenessProbe": {
+      "tcpSocket": {
+        "port": 8000
+      },
+      "initialDelaySeconds": 60,
+      "timeoutSeconds": 10,
+      "failureThreshold": 12
+    }
+  }
