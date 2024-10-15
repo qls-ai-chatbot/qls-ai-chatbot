@@ -32,16 +32,20 @@ import com.github.qls.ai.chatbot.backend.dto.ChatResponse;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.service.AiServices;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Sinks;
 
 @Service
 public class ChatService {
 	private static final Log _log = LogFactory.getLog(ChatController.class);
 
 	private final ChatLanguageModel chatLanguageModel;
+	
+	private final StreamingChatLanguageModel streamingChatLanguageModel;
 
 	private final Resource userMessageResource;
 
@@ -54,9 +58,19 @@ public class ChatService {
 	@Value("${search.experiences.blueprint.external.reference.code}")
 	private String sxpExternalRefCode;
 
+	@Value("${search.result.number.items}")
+	private int searchResultNbItems;
+	
+	@Value("${langchain4j.chat.memory.size}")
+	private int chatMemorySize;
+	
+
+
 	ChatService(ChatLanguageModel chatLanguageModel,
-			@Value("classpath:/prompts/user-message.st") Resource userMessageResource) {
+				StreamingChatLanguageModel streamingChatLanguageModel,
+				@Value("classpath:/prompts/user-message.st") Resource userMessageResource) {
 		this.chatLanguageModel = chatLanguageModel;
+		this.streamingChatLanguageModel = streamingChatLanguageModel;
 		this.userMessageResource = userMessageResource;
 	}
 
@@ -64,6 +78,75 @@ public class ChatService {
 
 		_log.info("chatRequest:" + chatRequest);
 		// call search API, retrieve contents
+		Map<String, List<String>> itemDatas = retrieveContent(jwt, chatRequest);
+		// inject into user prompt template
+		UserMessage userMessage = prepareUserMessage(chatRequest, itemDatas);
+
+		// call LLM with chat memory support
+		String conversationId = chatRequest.getAttributes().get("conversationId");
+		Assistant assistant = AiServices.builder(Assistant.class)
+								.chatLanguageModel(chatLanguageModel)
+								.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(chatMemorySize))
+								.build();
+		String aiMessage = assistant.chat(conversationId, userMessage.singleText());
+		return  ChatResponse.builder()
+					.aiMessage(aiMessage)
+					.attribute("titles", itemDatas.get("titles"))
+					.attribute("itemUrls", itemDatas.get("itemURLs"))
+					.build();
+
+	}
+	
+	public Flux<ChatResponse> doStreamingRag(Jwt jwt, ChatRequest chatRequest) throws IOException {
+		_log.info("chatRequest:" + chatRequest);
+		// call search API, retrieve contents
+		Map<String, List<String>> itemDatas = retrieveContent(jwt, chatRequest);
+		// inject into user prompt template
+		UserMessage userMessage = prepareUserMessage(chatRequest, itemDatas);
+		// call LLM with chat memory support
+		String conversationId = chatRequest.getAttributes().get("conversationId");
+		StreamingAssistant streamingAssistant = AiServices.builder(StreamingAssistant.class)
+								.streamingChatLanguageModel(streamingChatLanguageModel)
+								.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(chatMemorySize))
+								.build();		
+		Sinks.Many<ChatResponse> chatResponseSink = Sinks.many().unicast().onBackpressureBuffer();
+		streamingAssistant.chat(conversationId, userMessage.singleText())
+								.map(this::transformToChatResponse)
+								.doOnNext(chatResponse -> chatResponseSink.tryEmitNext(chatResponse))
+								.doOnComplete(()-> {
+				                    ChatResponse completionResponse = ChatResponse.builder()
+				        					.aiMessage("Stream completed")
+				        					.attribute("titles", itemDatas.get("titles"))
+				        					.attribute("itemUrls", itemDatas.get("itemURLs"))
+				        					.build();
+				                    chatResponseSink.tryEmitNext(completionResponse);
+				                    chatResponseSink.tryEmitComplete();
+				                 })
+								.doOnError(error -> chatResponseSink.tryEmitError(error))
+								.subscribe();
+		
+		return chatResponseSink.asFlux();
+	}
+
+	private UserMessage prepareUserMessage(ChatRequest chatRequest, Map<String, List<String>> itemDatas) throws IOException {
+		String template = "";
+		try (Reader reader = new InputStreamReader(userMessageResource.getInputStream(), StandardCharsets.UTF_8)) {
+			template = FileCopyUtils.copyToString(reader);
+		}
+
+		PromptTemplate promptTemplate = PromptTemplate.from(template);
+
+		String informations = itemDatas.get("itemDatas").stream().collect(Collectors.joining("\n\n"));
+
+		Map<String, Object> promptInputs = Map.ofEntries(Map.entry("userMessage", chatRequest.getUserMessage()),
+				Map.entry("contents", informations));
+
+		_log.info("promptInputs:" + promptInputs);
+		UserMessage userMessage = promptTemplate.apply(promptInputs).toUserMessage();
+		return userMessage;
+	}
+
+	private Map<String, List<String>> retrieveContent(Jwt jwt, ChatRequest chatRequest) {
 		JSONObject jsonObject = new JSONObject();
 		JSONObject attributesObject = new JSONObject();
 
@@ -85,30 +168,7 @@ public class ChatService {
 						_log.info("Result of search: " + output);
 					}
 				}).block();
-		// inject into user prompt template
-		String template = "";
-		try (Reader reader = new InputStreamReader(userMessageResource.getInputStream(), StandardCharsets.UTF_8)) {
-			template = FileCopyUtils.copyToString(reader);
-		}
-
-		PromptTemplate promptTemplate = PromptTemplate.from(template);
-
-		String informations = itemDatas.get("itemDatas").stream().collect(Collectors.joining("\n\n"));
-
-		Map<String, Object> promptInputs = Map.ofEntries(Map.entry("userMessage", chatRequest.getUserMessage()),
-				Map.entry("contents", informations));
-
-		_log.info("promptInputs:" + promptInputs);
-		UserMessage userMessage = promptTemplate.apply(promptInputs).toUserMessage();
-
-		// call LLM with chat memory support
-		String conversationId = chatRequest.getAttributes().get("conversationId");
-		Assistant assistant = AiServices.builder(Assistant.class).chatLanguageModel(chatLanguageModel)
-				.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(5)).build();
-		String aiMessage = assistant.chat(conversationId, userMessage.singleText());
-		return new ChatResponse.Builder().aiMessage(aiMessage).attribute("titles", itemDatas.get("titles"))
-				.attribute("itemUrls", itemDatas.get("itemURLs")).build();
-
+		return itemDatas;
 	}
 
 	private Mono<Map<String, List<String>>> parseAndExtractItemData(String jsonString) {
@@ -118,7 +178,7 @@ public class ChatService {
 			}
 
 			JSONArray itemsArray = rootObject.getJSONArray("items");
-			int itemCount = Math.min(itemsArray.length(), 5); // Limit to 5 items
+			int itemCount = Math.min(itemsArray.length(), searchResultNbItems); // Limit to 5 items
 
 			Flux<JSONObject> itemsFlux = Flux.range(0, itemCount).map(itemsArray::getJSONObject);
 
@@ -158,6 +218,12 @@ public class ChatService {
 			}
 		}
 		return "";
+	}
+
+	private ChatResponse transformToChatResponse(String message) {
+		return  ChatResponse.builder()
+						.aiMessage(message)
+						.build();
 	}
 
 }

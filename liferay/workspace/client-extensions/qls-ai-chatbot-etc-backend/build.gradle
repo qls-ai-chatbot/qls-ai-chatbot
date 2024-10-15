@@ -33,6 +33,7 @@ dependencies {
 	
 	implementation group: "dev.langchain4j", name:"langchain4j", version: "0.35.0"
 	implementation group: "dev.langchain4j", name:"langchain4j-core", version: "0.35.0"
+	implementation group: "dev.langchain4j", name:"langchain4j-reactor", version: "0.35.0"
 	implementation group: "dev.langchain4j", name:"langchain4j-ollama", version: "0.35.0"
 	implementation group: "dev.langchain4j", name:"langchain4j-ollama-spring-boot-starter", version: "0.35.0"
 	

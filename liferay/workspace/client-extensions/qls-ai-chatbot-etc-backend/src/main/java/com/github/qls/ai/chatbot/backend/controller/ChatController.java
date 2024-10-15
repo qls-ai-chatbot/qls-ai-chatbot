@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.qls.ai.chatbot.backend.dto.ChatRequest;
 import com.github.qls.ai.chatbot.backend.dto.ChatResponse;
 import com.github.qls.ai.chatbot.backend.service.ChatService;
+
+import reactor.core.publisher.Flux;
 
 
 @RestController
@@ -32,9 +35,9 @@ public class ChatController extends BaseRestController {
         		
     }
 	
-	@PostMapping("/chatStreaming")
-    public ChatResponse chatStreaming(@AuthenticationPrincipal Jwt jwt, @RequestBody ChatRequest chatRequest) {
-		return null;
+	@PostMapping(path ="/streamingChat",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ChatResponse> streamingChat(@AuthenticationPrincipal Jwt jwt, @RequestBody ChatRequest chatRequest) throws IOException {
+		return chatService.doStreamingRag(jwt, chatRequest);
 	}
 	
 }

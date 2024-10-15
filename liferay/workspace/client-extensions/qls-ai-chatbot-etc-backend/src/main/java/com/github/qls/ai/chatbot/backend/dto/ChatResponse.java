@@ -54,12 +54,16 @@ public class ChatResponse {
 		return Objects.equals(aiMessage, other.aiMessage) && Objects.equals(attributes, other.attributes);
 	}
 
-
+	public static Builder builder () {
+		return new Builder();
+	}
 	
 	public static class Builder {
         private String aiMessage;
         private Map<String, List<String>> attributes = new HashMap<>();
 
+        private Builder() {}
+        
         public Builder aiMessage(String aiMsg) {
             this.aiMessage = aiMsg;
             return this;
