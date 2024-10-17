@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.qls.ai.chatbot.backend.dto.ChatRequest;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Flux;
 
 
 @RestController
+@RequestMapping("/assistant/api")
 public class ChatController extends BaseRestController {
 	
 	private static final Log _log = LogFactory.getLog(ChatController.class);

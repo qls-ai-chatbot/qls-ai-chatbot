@@ -45,7 +45,11 @@ public class ChatService {
 
 	private final ChatLanguageModel chatLanguageModel;
 	
+	private Assistant assistant;
+	
 	private final StreamingChatLanguageModel streamingChatLanguageModel;
+	
+	private StreamingAssistant streamingAssistant;
 
 	private final Resource userMessageResource;
 
@@ -70,7 +74,16 @@ public class ChatService {
 				StreamingChatLanguageModel streamingChatLanguageModel,
 				@Value("classpath:/prompts/user-message.st") Resource userMessageResource) {
 		this.chatLanguageModel = chatLanguageModel;
+		assistant = AiServices.builder(Assistant.class)
+				.chatLanguageModel(this.chatLanguageModel)
+				.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(chatMemorySize))
+				.build();
+		
 		this.streamingChatLanguageModel = streamingChatLanguageModel;
+		streamingAssistant = AiServices.builder(StreamingAssistant.class)
+				.streamingChatLanguageModel(this.streamingChatLanguageModel)
+				.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(chatMemorySize))
+				.build();	
 		this.userMessageResource = userMessageResource;
 	}
 
@@ -84,11 +97,9 @@ public class ChatService {
 
 		// call LLM with chat memory support
 		String conversationId = chatRequest.getAttributes().get("conversationId");
-		Assistant assistant = AiServices.builder(Assistant.class)
-								.chatLanguageModel(chatLanguageModel)
-								.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(chatMemorySize))
-								.build();
+		
 		String aiMessage = assistant.chat(conversationId, userMessage.singleText());
+		
 		return  ChatResponse.builder()
 					.aiMessage(aiMessage)
 					.attribute("titles", itemDatas.get("titles"))
@@ -105,10 +116,7 @@ public class ChatService {
 		UserMessage userMessage = prepareUserMessage(chatRequest, itemDatas);
 		// call LLM with chat memory support
 		String conversationId = chatRequest.getAttributes().get("conversationId");
-		StreamingAssistant streamingAssistant = AiServices.builder(StreamingAssistant.class)
-								.streamingChatLanguageModel(streamingChatLanguageModel)
-								.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(chatMemorySize))
-								.build();		
+			
 		Sinks.Many<ChatResponse> chatResponseSink = Sinks.many().unicast().onBackpressureBuffer();
 		streamingAssistant.chat(conversationId, userMessage.singleText())
 								.map(this::transformToChatResponse)
