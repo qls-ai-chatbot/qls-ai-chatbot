@@ -223,6 +223,9 @@ public class ChatService {
 					String fieldDataHtml = field.getJSONObject("contentFieldValue").getString("data");
 					return Jsoup.parse(fieldDataHtml).text();
 				}).reduce((a, b) -> a + "; " + b).orElse("");
+			}else if (embedded.has("articleBody")) {
+				String fieldDataHtml = embedded.getString("articleBody");
+				return Jsoup.parse(fieldDataHtml).text();
 			}
 		}
 		return "";
