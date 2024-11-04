@@ -1,11 +1,11 @@
 services:
   liferay:
-    image: liferay/dxp:2024.q3.0
+    image: liferay/dxp:2024.q3.7
     ports:
       - 8080:8080
     volumes:
       - ./liferay/files:/mnt/liferay/files
-      - ./data/liferay:/opt/liferay/data
+      - liferay_data:/opt/liferay/data
     depends_on:
       database:
         condition: service_healthy
@@ -28,7 +28,7 @@ services:
     ports:
      - 9200:9200
     volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/data
   kibana:
     image: docker.elastic.co/kibana/kibana:8.15.2
     environment:
@@ -50,7 +50,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./data/database:/var/lib/mysql
+      - database_data:/var/lib/mysql
     cap_add:
       - SYS_NICE
     healthcheck:
@@ -59,3 +59,8 @@ services:
       timeout: 2s
       retries: 5
       start_period: 10s
+
+volumes:
+  liferay_data:
+  elasticsearch_data:
+  database_data:
