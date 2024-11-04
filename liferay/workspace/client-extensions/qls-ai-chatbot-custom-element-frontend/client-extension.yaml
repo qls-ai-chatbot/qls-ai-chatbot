@@ -1,0 +1,20 @@
+assemble:
+    - from: build/static
+      into: static
+    - from: public 
+      into: static
+qls-ai-chatbot-custom-element-frontend:
+    cssURLs:
+        - css/main.*.css
+    friendlyURLMapping: qls-ai-chatbot
+    htmlElementName: qls-ai-chatbot
+    instanceable: false
+    name: QLS AI Chatbot
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - js/main.*.js
+    useESM: true
+qls-ai-chatbot-static-content:
+    name: QLS AI Chatbot Static Content
+    type: staticContent    
