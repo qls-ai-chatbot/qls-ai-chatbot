@@ -1,0 +1,31 @@
+{
+	"browserslist": {
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		],
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		]
+	},
+	"dependencies": {
+		"fetch-event-stream": "^0.1.5",
+		"react": "^18.2.0",
+		"react-chatbotify": "^2.0.0-beta.22",
+		"react-dom": "^18.2.0",
+		"react-scripts": "5.0.1",
+		"sass": "^1.66.1"
+	},
+	"name": "@qls-ai-chatbot/qls-ai-chatbot-custom-element-frontend",
+	"private": true,
+	"scripts": {
+		"build": "react-scripts build",
+		"eject": "react-scripts eject",
+		"start": "react-scripts start",
+		"test": "react-scripts test --passWithNoTests --watchAll=false"
+	},
+	"version": "0.0.0"
+}

@@ -2,7 +2,7 @@
     "private": true,
     "workspaces": {
         "packages": [
-            "client-extensions/liferay-sample-custom-element-react-scripts"
+            "client-extensions/qls-ai-chatbot-custom-element-frontend"
         ]
     }
 }
