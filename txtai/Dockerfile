@@ -1,4 +1,5 @@
-FROM neuml/txtai-cpu
+ARG TXTAI_TAG=latest
+FROM neuml/txtai-cpu:${TXTAI_TAG}
 
 # Copy configuration
 COPY config.yml .
