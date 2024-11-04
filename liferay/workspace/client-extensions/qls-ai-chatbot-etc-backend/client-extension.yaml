@@ -1,0 +1,9 @@
+assemble:
+    - fromTask: bootJar
+ai-chatbot-etc-spring-boot-oauth-application-user-agent:
+    .serviceAddress: localhost:58081
+    .serviceScheme: http
+    name: AI chatbot Etc Spring Boot OAuth Application User Agent
+    scopes:
+        - Liferay.Portal.Search.REST.everything
+    type: oAuthApplicationUserAgent
