@@ -103,6 +103,7 @@ public class ChatService {
 		return  ChatResponse.builder()
 					.aiMessage(aiMessage)
 					.attribute("titles", itemDatas.get("titles"))
+					.attribute("itemContents", itemDatas.get("itemContents"))
 					.attribute("itemUrls", itemDatas.get("itemURLs"))
 					.build();
 
@@ -125,6 +126,7 @@ public class ChatService {
 				                    ChatResponse completionResponse = ChatResponse.builder()
 				        					.aiMessage("Stream completed")
 				        					.attribute("titles", itemDatas.get("titles"))
+				        					.attribute("itemContents", itemDatas.get("itemContents"))
 				        					.attribute("itemUrls", itemDatas.get("itemURLs"))
 				        					.build();
 				                    chatResponseSink.tryEmitNext(completionResponse);
@@ -144,7 +146,9 @@ public class ChatService {
 
 		PromptTemplate promptTemplate = PromptTemplate.from(template);
 
-		String informations = itemDatas.get("itemDatas").stream().collect(Collectors.joining("\n\n"));
+		String informations = itemDatas.get("itemContents").stream()
+									.map(contentHtml -> Jsoup.parse(contentHtml).text())
+									.collect(Collectors.joining("\n\n"));
 
 		Map<String, Object> promptInputs = Map.ofEntries(Map.entry("userMessage", chatRequest.getUserMessage()),
 				Map.entry("contents", informations));
@@ -173,13 +177,16 @@ public class ChatService {
 				.retrieve().bodyToMono(String.class).flatMap(this::parseAndExtractItemData)
 				.defaultIfEmpty(Collections.emptyMap()).doOnNext(output -> {
 					if (_log.isInfoEnabled()) {
-						_log.info("Result of search: " + output);
+						_log.info("Retrieved content: " + output);
 					}
 				}).block();
 		return itemDatas;
 	}
 
 	private Mono<Map<String, List<String>>> parseAndExtractItemData(String jsonString) {
+		if (_log.isInfoEnabled()) {
+			_log.info("Result search: " + jsonString);
+		}
 		return Mono.fromCallable(() -> new JSONObject(jsonString)).flatMap(rootObject -> {
 			if (!rootObject.has("items") || rootObject.getJSONArray("items").length() == 0) {
 				return Mono.just(createEmptyResultMap());
@@ -200,7 +207,7 @@ public class ChatService {
 				Map<String, List<String>> resultMap = new HashMap<>();
 				resultMap.put("titles", tuple.getT1());
 				resultMap.put("itemURLs", tuple.getT2());
-				resultMap.put("itemDatas", tuple.getT3());
+				resultMap.put("itemContents", tuple.getT3());
 				return resultMap;
 			});
 		});
@@ -210,7 +217,7 @@ public class ChatService {
 		Map<String, List<String>> emptyMap = new HashMap<>();
 		emptyMap.put("titles", Collections.emptyList());
 		emptyMap.put("itemURLs", Collections.emptyList());
-		emptyMap.put("itemDatas", Collections.emptyList());
+		emptyMap.put("itemContents", Collections.emptyList());
 		return emptyMap;
 	}
 
@@ -221,11 +228,11 @@ public class ChatService {
 				JSONArray contentFields = embedded.getJSONArray("contentFields");
 				return IntStream.range(0, contentFields.length()).mapToObj(contentFields::getJSONObject).map(field -> {
 					String fieldDataHtml = field.getJSONObject("contentFieldValue").getString("data");
-					return Jsoup.parse(fieldDataHtml).text();
+					return fieldDataHtml;
 				}).reduce((a, b) -> a + "; " + b).orElse("");
 			}else if (embedded.has("articleBody")) {
 				String fieldDataHtml = embedded.getString("articleBody");
-				return Jsoup.parse(fieldDataHtml).text();
+				return fieldDataHtml;
 			}
 		}
 		return "";
