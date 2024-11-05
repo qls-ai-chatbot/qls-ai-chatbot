@@ -92,3 +92,5 @@ $RECYCLE.BIN/
 dist/
 .env
 liferay.pid
+.env.local
+docker-compose-local.yml
