@@ -91,3 +91,4 @@ $RECYCLE.BIN/
 
 dist/
 .env
+liferay.pid
