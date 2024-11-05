@@ -34,7 +34,7 @@
 									"type": "number"
 								},
 								{
-									"defaultValue": 2.4,
+									"defaultValue": 0.7,
 									"name": "min_score",
 									"typeOptions": {
 										"min": 0
@@ -260,7 +260,7 @@
 												"boost": "${configuration.boost}",
 												"min_score": "${configuration.min_score}",
 												"script": {
-													"source": "Math.pow((${configuration.vector_field_function}(params.query_vector, 'text_embedding_${ml.text_embeddings.vector_dimensions}_${context.language_id}') + 1), 3)",
+													"source": "(${configuration.vector_field_function}(params.query_vector, 'text_embedding_${ml.text_embeddings.vector_dimensions}_${context.language_id}') + 1) / 2 ",
 													"params": {
 														"query_vector": "${ml.text_embeddings.keywords_embedding}"
 													}
