@@ -12,6 +12,15 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+  chatbot-backend:
+    build:
+      dockerfile: client-extensions/qls-ai-chatbot-etc-backend/Dockerfile
+      context: liferay/workspace
+    ports:
+      - ${CHATBOT_BACKEND_HOST_PORT:-58081}:58081
+    depends_on:
+      liferay:
+        condition: service_healthy
   txtai:
     build:
       dockerfile: Dockerfile
