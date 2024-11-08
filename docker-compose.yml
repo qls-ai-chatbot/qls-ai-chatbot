@@ -4,8 +4,8 @@ services:
     ports:
       - ${LIFERAY_HOST_PORT:-8080}:8080
     volumes:
-      - ./liferay/workspace/configs/docker:/mnt/liferay/files
-      - ./liferay/workspace/build/docker/client-extensions:/opt/liferay/osgi/client-extensions
+      - ./liferay/workspace/configs/docker:/mnt/liferay/files:ro
+      - ./liferay/workspace/build/docker/client-extensions:/opt/liferay/osgi/client-extensions:ro
       - liferay_data:/opt/liferay/data
     depends_on:
       database:
@@ -76,3 +76,4 @@ volumes:
   liferay_data:
   elasticsearch_data:
   database_data:
+  ollama_data:
