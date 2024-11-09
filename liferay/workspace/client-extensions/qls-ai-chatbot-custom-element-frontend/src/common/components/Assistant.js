@@ -20,9 +20,10 @@ catch (error) {
 	console.error(error);
 }
 
+const storageKeyContextSuffix =  '_' + Liferay.ThemeDisplay.getUserId() + '_' +  Liferay.ThemeDisplay.getScopeGroupId() ;
 
 const getConversationId = () => {
-	const key = 'qls_ai_chatbot_conversationId';
+	const key = 'qls_ai_chatbot_conversationId' + storageKeyContextSuffix ;
 	let conversationId = sessionStorage.getItem(key);
 
 	if (!conversationId) {
@@ -171,7 +172,8 @@ function Assistant() {
 			avatar: '/o/qls-ai-chatbot-custom-element-frontend/images/chatbot_avatar.jpg'
 		},
 		chatHistory: {
-			storageKey: "qls_ai_chatbot_history"
+			storageKey: "qls_ai_chatbot_history" + storageKeyContextSuffix,
+			storageType: 'SESSION_STORAGE'
 		},
 		botBubble: {
 			showAvatar: true,
