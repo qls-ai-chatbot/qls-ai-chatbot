@@ -4,6 +4,8 @@ import ChatBot from "react-chatbotify";
 import { Liferay } from '../services/liferay/liferay.js';
 import { oAuthRequest, getServerUrl } from '../services/liferay/request.js';
 import { events } from 'fetch-event-stream';
+import {marked} from 'marked';
+import DOMPurify from 'dompurify';
 
 let oAuth2Client;
 
@@ -98,7 +100,9 @@ const handleUserMessageStreaming = async (params) => {
 
 					fullMessage += data.aiMessage;
 
-					await params.streamMessage(fullMessage);
+					const htmlFullMessage = md2html(fullMessage);
+
+					await params.streamMessage(htmlFullMessage);
 
 				} else {
 
@@ -108,9 +112,9 @@ const handleUserMessageStreaming = async (params) => {
 
 						const linksMessage = buildLinksHtml({ itemUrls, titles });
 
-						fullMessage += linksMessage;
+						const htmlFullMessage = md2html(fullMessage) + linksMessage;
 
-						await params.streamMessage(fullMessage);
+						await params.streamMessage(htmlFullMessage);
 					}
 				}
 			}
@@ -162,7 +166,13 @@ const buildLinksHtml = ({ itemUrls, titles }) => {
 	linksHtml += '</div>';
 
 	return linksHtml;
-}
+};
+
+const md2html = (content) => {
+	let html = marked.parse(content);
+	html = DOMPurify.sanitize(html);
+	return html;
+};
 
 function Assistant() {
 
