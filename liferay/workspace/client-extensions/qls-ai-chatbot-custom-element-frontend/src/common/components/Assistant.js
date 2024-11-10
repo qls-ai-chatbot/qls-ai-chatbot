@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatBot from "react-chatbotify";
 
 import { Liferay } from '../services/liferay/liferay.js';
@@ -22,10 +22,10 @@ catch (error) {
 	console.error(error);
 }
 
-const storageKeyContextSuffix =  '_' + Liferay.ThemeDisplay.getUserId() + '_' +  Liferay.ThemeDisplay.getScopeGroupId() ;
+const getStorageKeyContextSuffix = () => '_' + window.Liferay.ThemeDisplay.getUserId() + '_' +  window.Liferay.ThemeDisplay.getScopeGroupId() ;
 
 const getConversationId = () => {
-	const key = 'qls_ai_chatbot_conversationId' + storageKeyContextSuffix ;
+	const key = 'qls_ai_chatbot_conversationId' + getStorageKeyContextSuffix();
 	let conversationId = sessionStorage.getItem(key);
 
 	if (!conversationId) {
@@ -68,8 +68,6 @@ const handleUserMessage = async (params) => {
 const handleUserMessageStreaming = async (params) => {
 
 	let fullMessage = '';
-
-	let links = [];
 
 	try {
 
@@ -197,13 +195,24 @@ const md2html = (content) => {
 
 function Assistant() {
 
+	const [suffix, setSuffix] = useState(getStorageKeyContextSuffix());
+
+	useEffect(() => {
+		if(Liferay.SPA && Liferay.SPA.app) {
+			Liferay.SPA.app.on('endNavigate', function() { 
+				console.log('endNavigate'); 
+				setSuffix(getStorageKeyContextSuffix());
+			});
+		}
+	},[]);
+
 	const settings = {
 		header: {
 			title: <div style={{ margin: '0px', fontSize: '20px', fontWeight: 'bold' }} >Ray</div>,
 			avatar: '/o/qls-ai-chatbot-custom-element-frontend/images/chatbot_avatar.jpg'
 		},
 		chatHistory: {
-			storageKey: "qls_ai_chatbot_history" + storageKeyContextSuffix,
+			storageKey: "qls_ai_chatbot_history" + suffix,
 			storageType: 'SESSION_STORAGE'
 		},
 		botBubble: {
@@ -229,7 +238,9 @@ function Assistant() {
 		}
 	}
 
-	return <ChatBot settings={settings} flow={flow} />;
+	const key = `qls_ai_chatbot${suffix}`;
+
+	return <ChatBot key={key} settings={settings} flow={flow} />;
 }
 
 export default Assistant;
