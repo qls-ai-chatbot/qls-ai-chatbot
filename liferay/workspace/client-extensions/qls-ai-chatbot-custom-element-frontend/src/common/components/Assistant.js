@@ -53,11 +53,9 @@ const handleUserMessage = async (params) => {
 
 		let content = data.aiMessage;
 
-		const { itemUrls, titles } = data.attributes;
+		const { itemContents, titles } = data.attributes;
 
-		if (itemUrls.length > 0) {
-			content += buildLinksHtml({ itemUrls, titles });
-		}
+		content += buildLinksHtml(data.attributes);
 
 		return content;
 
@@ -106,16 +104,12 @@ const handleUserMessageStreaming = async (params) => {
 
 				} else {
 
-					const { itemUrls, titles } = data.attributes;
+					const linksMessage = buildLinksHtml(data.attributes);
 
-					if (itemUrls.length > 0) {
+					const htmlFullMessage = md2html(fullMessage) + linksMessage;
 
-						const linksMessage = buildLinksHtml({ itemUrls, titles });
-
-						const htmlFullMessage = md2html(fullMessage) + linksMessage;
-
-						await params.streamMessage(htmlFullMessage);
-					}
+					await params.streamMessage(htmlFullMessage);
+					
 				}
 			}
 		}
@@ -154,19 +148,46 @@ const buildRequestPayload = (params) => {
 	return payload;
 };
 
-const buildLinksHtml = ({ itemUrls, titles }) => {
+const buildLinksHtml = ({ itemContents, titles }) => {
+
+	if(titles.length === 0) {
+		return '';
+	}
 
 	let linksHtml = '<div class="rcb-options-container">';
 
-	itemUrls.forEach((url, i) => {
+	itemContents.forEach((content, i) => {
 		const title = titles[i];
-		linksHtml += `<div class="rcb-options"><a href="${url}" target="_blank" class="qls-ai-chatbot-link">${title} ↗</a></div>`
+		linksHtml += `<div class="rcb-options"><a target="_blank" class="qls-ai-chatbot-link" onclick="_qls_ai_chatbot_openContent(this)" data-title="${encodeURIComponent(title)}" data-content="${encodeURIComponent(content)}">${title} ↗</a></div>`
 	});
 
 	linksHtml += '</div>';
 
 	return linksHtml;
 };
+
+const openContent = (target) => {
+
+	console.log({target});
+
+	const title = target.getAttribute('data-title');
+
+	const content = target.getAttribute('data-content');
+
+	// https://github.com/liferay/liferay-portal/blob/294d7dd2a85d73cb6c73b8215e12b55828f47489/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/modal/Modal.js#L351
+
+	Liferay.Util.openModal({
+		title: decodeURIComponent(title),
+		bodyHTML: decodeURIComponent(content),
+		centered: true,
+		modal: true,
+		close: true,
+		zIndex: 16777271,
+		size: 'full-screen'
+	});
+}
+
+window._qls_ai_chatbot_openContent = openContent;
 
 const md2html = (content) => {
 	let html = marked.parse(content);
