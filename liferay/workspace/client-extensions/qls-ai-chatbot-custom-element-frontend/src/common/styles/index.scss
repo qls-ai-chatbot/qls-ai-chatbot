@@ -1,0 +1,30 @@
+.rcb-chat-footer-container > span {
+	display: none !important;
+}
+
+.rcb-chat-window {
+    width: 90% !important;
+	height: 90%;
+}
+
+.qls-ai-chatbot-link, .qls-ai-chatbot-link:hover {
+	text-decoration: none;
+}
+
+
+.qls-ai-chatbot-link, .qls-ai-chatbot-link:hover {
+	color: rgb(255, 255, 255);
+}
+
+.rcb-options:hover {
+	border-width: 2px;
+	font-weight: bold;
+}
+
+.rcb-bot-message.rcb-bot-message-entry {
+	max-width: 100% !important;
+
+	p, ol, ul {
+		margin-bottom: 0;
+	}
+}

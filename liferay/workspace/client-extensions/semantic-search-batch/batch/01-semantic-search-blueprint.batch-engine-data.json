@@ -1,0 +1,720 @@
+{
+  "configuration": {
+    "className": "com.liferay.search.experiences.rest.dto.v1_0.SXPBlueprint",
+    "parameters": {
+      "containsHeaders": "true",
+      "createStrategy": "UPSERT",
+      "importStrategy": "ON_ERROR_FAIL",
+      "taskItemDelegateName": "DEFAULT",
+      "updateStrategy": "UPDATE"
+    }
+  },
+  "items": [
+    {
+      "schemaVersion": "1.1",
+      "title_i18n": {
+        "en_US": "Semantic Search Blueprint"
+      },
+      "configuration": {
+        "highlightConfiguration": {},
+        "parameterConfiguration": {},
+        "aggregationConfiguration": {},
+        "generalConfiguration": {
+          "searchableAssetTypes": [],
+          "clauseContributorsExcludes": [
+            "com.liferay.asset.internal.search.spi.model.query.contributor.AssetEntryModelPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.AssetCategoryIdsQueryPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.AssetTagNamesQueryPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.FolderIdQueryPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.GroupIdQueryPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.LayoutQueryPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.UserIdQueryPreFilterContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.AccountEntryModelPreFilterContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.AccountGroupModelPreFilterContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.AccountRoleModelPreFilterContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.OrganizationModelPreFilterContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.UserModelPreFilterContributor",
+            "com.liferay.address.internal.search.spi.model.query.contributor.AddressModelPreFilterContributor",
+            "com.liferay.analytics.settings.web.internal.search.spi.model.query.contributor.UserModelPreFilterContributor",
+            "com.liferay.asset.categories.internal.search.spi.model.query.contributor.AssetCategoryModelPreFilterContributor",
+            "com.liferay.blogs.internal.search.spi.model.query.contributor.BlogsEntryModelPreFilterContributor",
+            "com.liferay.bookmarks.internal.search.spi.model.query.contributor.BookmarksEntryModelPreFilterContributor",
+            "com.liferay.bookmarks.internal.search.spi.model.query.contributor.BookmarksFolderModelPreFilterContributor",
+            "com.liferay.calendar.internal.search.spi.model.query.contributor.CalendarBookingModelPreFilterContributor",
+            "com.liferay.change.tracking.internal.search.spi.model.query.contributor.CTModelPreFilterContributor",
+            "com.liferay.commerce.internal.search.spi.model.query.contributor.CommerceOrderModelPreFilterContributor",
+            "com.liferay.commerce.product.internal.search.spi.model.query.contributor.CPDefinitionModelPreFilterContributor",
+            "com.liferay.commerce.shop.by.diagram.internal.search.spi.model.query.contributor.CSDiagramEntryModelPreFilterContributor",
+            "com.liferay.commerce.term.internal.search.spi.model.query.contributor.CommerceTermEntryModelPreFilterContributor",
+            "com.liferay.data.engine.internal.search.spi.model.query.contributor.DEDataListViewModelPreFilterContributor",
+            "com.liferay.document.library.internal.search.spi.model.query.contributor.DLFileEntryModelPreFilterContributor",
+            "com.liferay.document.library.internal.search.spi.model.query.contributor.DLFolderModelPreFilterContributor",
+            "com.liferay.dynamic.data.lists.internal.search.spi.model.query.contributor.DDLRecordModelPreFilterContributor",
+            "com.liferay.dynamic.data.lists.internal.search.spi.model.query.contributor.DDLRecordSetModelPreFilterContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMFormInstanceRecordModelPreFilterContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMStructureLayoutModelPreFilterContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMStructureModelPreFilterContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMTemplateModelPreFilterContributor",
+            "com.liferay.exportimport.internal.search.spi.model.query.contributor.ExportImportConfigurationModelPreFilterContributor",
+            "com.liferay.journal.internal.search.spi.model.query.contributor.JournalArticleModelPreFilterContributor",
+            "com.liferay.journal.internal.search.spi.model.query.contributor.JournalFolderModelPreFilterContributor",
+            "com.liferay.layout.internal.search.spi.model.query.contributor.LayoutModelPreFilterContributor",
+            "com.liferay.list.type.internal.search.spi.model.query.contributor.ListTypeEntryModelPreFilterContributor",
+            "com.liferay.message.boards.internal.search.spi.model.query.contributor.MBCategoryModelPreFilterContributor",
+            "com.liferay.message.boards.internal.search.spi.model.query.contributor.MBMessageModelPreFilterContributor",
+            "com.liferay.message.boards.internal.search.spi.model.query.contributor.MBThreadModelPreFilterContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectActionModelPreFilterContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectFieldModelPreFilterContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectLayoutModelPreFilterContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectRelationshipModelPreFilterContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectValidationRuleModelPreFilterContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectViewModelPreFilterContributor",
+            "com.liferay.on.demand.admin.internal.search.spi.model.query.contributor.UserModelPreFilterContributor",
+            "com.liferay.organizations.internal.search.spi.model.query.contributor.OrganizationModelPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.StagingModelPreFilterContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.WorkflowStatusModelPreFilterContributor",
+            "com.liferay.portal.workflow.kaleo.internal.search.spi.model.query.contributor.KaleoInstanceModelPreFilterContributor",
+            "com.liferay.portal.workflow.kaleo.internal.search.spi.model.query.contributor.KaleoInstanceTokenModelPreFilterContributor",
+            "com.liferay.portal.workflow.kaleo.internal.search.spi.model.query.contributor.KaleoLogModelPreFilterContributor",
+            "com.liferay.portal.workflow.kaleo.internal.search.spi.model.query.contributor.KaleoTaskInstanceTokenModelPreFilterContributor",
+            "com.liferay.redirect.internal.search.spi.model.query.contributor.RedirectNotFoundEntryModelPreFilterContributor",
+            "com.liferay.segments.internal.search.spi.model.query.contributor.SegmentsEntryModelPreFilterContributor",
+            "com.liferay.segments.internal.search.spi.model.query.contributor.UserModelPreFilterContributor",
+            "com.liferay.user.groups.admin.internal.search.spi.model.query.contributor.UserGroupModelPreFilterContributor",
+            "com.liferay.users.admin.internal.search.spi.model.query.contributor.UserModelPreFilterContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.AccountEntryKeywordQueryContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.AccountGroupKeywordQueryContributor",
+            "com.liferay.account.internal.search.spi.model.query.contributor.AccountRoleKeywordQueryContributor",
+            "com.liferay.address.internal.search.spi.model.query.contributor.AddressKeywordQueryContributor",
+            "com.liferay.asset.categories.internal.search.spi.model.query.contributor.AssetCategoryKeywordQueryContributor",
+            "com.liferay.asset.categories.internal.search.spi.model.query.contributor.AssetVocabularyKeywordQueryContributor",
+            "com.liferay.asset.tags.internal.search.spi.model.query.contributor.AssetTagKeywordQueryContributor",
+            "com.liferay.blogs.internal.search.spi.model.query.contributor.BlogsEntryKeywordQueryContributor",
+            "com.liferay.calendar.internal.search.spi.model.query.contributor.CalendarBookingKeywordQueryContributor",
+            "com.liferay.calendar.internal.search.spi.model.query.contributor.CalendarKeywordQueryContributor",
+            "com.liferay.commerce.internal.search.spi.model.query.contributor.CommerceOrderKeywordQueryContributor",
+            "com.liferay.commerce.internal.search.spi.model.query.contributor.CommerceOrderTypeKeywordQueryContributor",
+            "com.liferay.commerce.order.rule.internal.search.spi.model.query.contributor.COREntryKeywordQueryContributor",
+            "com.liferay.commerce.shop.by.diagram.internal.search.spi.model.query.contributor.CSDiagramEntryKeywordQueryContributor",
+            "com.liferay.commerce.term.internal.search.spi.model.query.contributor.CommerceTermEntryKeywordQueryContributor",
+            "com.liferay.contacts.internal.search.spi.model.query.contributor.ContactKeywordQueryContributor",
+            "com.liferay.data.engine.internal.search.spi.model.query.contributor.DEDataListViewKeywordQueryContributor",
+            "com.liferay.depot.internal.search.spi.model.query.contributor.DepotEntryKeywordQueryContributor",
+            "com.liferay.document.library.internal.search.spi.model.query.contributor.DLFileEntryKeywordQueryContributor",
+            "com.liferay.document.library.internal.search.spi.model.query.contributor.DLFileEntryTypeKeywordQueryContributor",
+            "com.liferay.dynamic.data.lists.internal.search.spi.model.query.contributor.DDLRecordKeywordQueryContributor",
+            "com.liferay.dynamic.data.lists.internal.search.spi.model.query.contributor.DDLRecordSetKeywordQueryContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMFormInstanceRecordKeywordQueryContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMStructureKeywordQueryContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMStructureLayoutKeywordQueryContributor",
+            "com.liferay.dynamic.data.mapping.internal.search.spi.model.query.contributor.DDMTemplateKeywordQueryContributor",
+            "com.liferay.exportimport.internal.search.spi.model.query.contributor.ExportImportConfigurationKeywordQueryContributor",
+            "com.liferay.journal.internal.search.spi.model.query.contributor.JournalArticleKeywordQueryContributor",
+            "com.liferay.journal.internal.search.spi.model.query.contributor.JournalFolderKeywordQueryContributor",
+            "com.liferay.layout.internal.search.spi.model.query.contributor.LayoutKeywordQueryContributor",
+            "com.liferay.list.type.internal.search.spi.model.query.contributor.ListTypeDefinitionKeywordQueryContributor",
+            "com.liferay.list.type.internal.search.spi.model.query.contributor.ListTypeEntryKeywordQueryContributor",
+            "com.liferay.message.boards.internal.search.spi.model.query.contributor.MBMessageKeywordQueryContributor",
+            "com.liferay.notification.internal.search.spi.model.query.contributor.NotificationQueueEntryKeywordQueryContributor",
+            "com.liferay.notification.internal.search.spi.model.query.contributor.NotificationTemplateKeywordQueryContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectActionKeywordQueryContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectDefinitionKeywordQueryContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectFieldKeywordQueryContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectLayoutKeywordQueryContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectRelationshipKeywordQueryContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectValidationRuleKeywordQueryContributor",
+            "com.liferay.object.internal.search.spi.model.query.contributor.ObjectViewKeywordQueryContributor",
+            "com.liferay.organizations.internal.search.spi.model.query.contributor.OrganizationKeywordQueryContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.AlwaysPresentFieldsKeywordQueryContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.AssetCategoryTitlesKeywordQueryContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.AssetInternalCategoryTitlesKeywordQueryContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.AssetTagNamesKeywordQueryContributor",
+            "com.liferay.portal.search.internal.spi.model.query.contributor.DefaultKeywordQueryContributor",
+            "com.liferay.portal.workflow.kaleo.internal.search.spi.model.query.contributor.KaleoInstanceTokenKeywordQueryContributor",
+            "com.liferay.redirect.internal.search.spi.model.query.contributor.RedirectEntryKeywordQueryContributor",
+            "com.liferay.redirect.internal.search.spi.model.query.contributor.RedirectNotFoundEntryKeywordQueryContributor",
+            "com.liferay.search.experiences.internal.search.spi.model.query.contributor.SXPBlueprintKeywordQueryContributor",
+            "com.liferay.search.experiences.internal.search.spi.model.query.contributor.SXPElementKeywordQueryContributor",
+            "com.liferay.segments.internal.search.spi.model.query.contributor.SegmentsEntryKeywordQueryContributor",
+            "com.liferay.translation.internal.search.spi.model.query.contributor.TranslationEntryKeywordQueryContributor",
+            "com.liferay.user.groups.admin.internal.search.spi.model.query.contributor.UserGroupKeywordQueryContributor",
+            "com.liferay.users.admin.internal.search.spi.model.query.contributor.UserKeywordQueryContributor"
+          ],
+          "clauseContributorsIncludes": []
+        },
+        "advancedConfiguration": {},
+        "sortConfiguration": {},
+        "queryConfiguration": {
+          "applyIndexerClauses": false
+        }
+      },
+      "description_i18n": {
+        "en_US": "Notice that this Blueprint disables all the Liferay search framework generated search clauses. "
+      },
+      "elementInstances": [
+        {
+          "sxpElement": {
+            "schemaVersion": "1.0",
+            "title_i18n": {
+              "en-US": "limit-search-to-the-current-site"
+            },
+            "description": "Limit the search to the current site.",
+            "readOnly": true,
+            "title": "Limit Search to the Current Site",
+            "type": 0,
+            "userName": "",
+            "version": "1,0",
+            "externalReferenceCode": "LIMIT_SEARCH_TO_THE_CURRENT_SITE",
+            "description_i18n": {
+              "en-US": "limit-search-to-the-current-site-description"
+            },
+            "modifiedDate": "2024-10-01T15:48:56Z",
+            "id": 218,
+            "createDate": "2024-10-01T15:48:56Z",
+            "elementDefinition": {
+              "uiConfiguration": {},
+              "configuration": {
+                "queryConfiguration": {
+                  "queryEntries": [
+                    {
+                      "clauses": [
+                        {
+                          "occur": "filter",
+                          "query": {
+                            "term": {
+                              "scopeGroupId": "${context.scope_group_id}"
+                            }
+                          },
+                          "context": "query"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "icon": "filter",
+              "category": "filter"
+            }
+          },
+          "configurationEntry": {
+            "queryConfiguration": {
+              "queryEntries": [
+                {
+                  "clauses": [
+                    {
+                      "occur": "filter",
+                      "query": {
+                        "term": {
+                          "scopeGroupId": "${context.scope_group_id}"
+                        }
+                      },
+                      "context": "query"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "uiConfigurationValues": {}
+        },
+        {
+          "sxpElement": {
+            "schemaVersion": "1.0",
+            "title_i18n": {
+              "en-US": "Search By Sentence Embedding"
+            },
+            "description": "Enables semantic search for the selected asset types. Only Web Contents, Blogs, Knowledge Base Articles, Message Board Messages and Wiki Pages are currently supported. The vector dimensions have to match the dimensions set in the Search Experiences Sentence Transformer Configuration.",
+            "readOnly": false,
+            "title": "Search By Sentence Embedding",
+            "type": 0,
+            "userName": "Test Test",
+            "version": "1,0",
+            "externalReferenceCode": "search-sentence-by-embedding",
+            "description_i18n": {
+              "en-US": "Enables semantic search for the selected asset types. Only Web Contents, Blogs, Knowledge Base Articles, Message Board Messages and Wiki Pages are currently supported. The vector dimensions have to match the dimensions set in the Search Experiences Sentence Transformer Configuration."
+            },
+            "modifiedDate": "2024-10-28T12:10:05Z",
+            "id": 302,
+            "createDate": "2024-10-01T16:54:20Z",
+            "elementDefinition": {
+              "uiConfiguration": {
+                "fieldSets": [
+                  {
+                    "fields": [
+                      {
+                        "labelLocalized": "Boost",
+                        "defaultValue": 1,
+                        "name": "boost",
+                        "typeOptions": {
+                          "min": 0
+                        },
+                        "label": "Boost",
+                        "type": "number"
+                      },
+                      {
+                        "labelLocalized": "Min Score",
+                        "defaultValue": 2.4,
+                        "name": "min_score",
+                        "typeOptions": {
+                          "min": 0
+                        },
+                        "label": "Min Score",
+                        "type": "number"
+                      },
+                      {
+                        "helpTextLocalized": "Specify the vector function for measuring similarity between the text embeddings of the search keywords and target documents. Check the model's documentation for suitability.",
+                        "helpText": "Specify the vector function for measuring similarity between the text embeddings of the search keywords and target documents. Check the model's documentation for suitability.",
+                        "labelLocalized": "Vector Field Function",
+                        "defaultValue": "cosineSimilarity",
+                        "name": "vector_field_function",
+                        "typeOptions": {
+                          "nullable": false,
+                          "options": [
+                            {
+                              "label": "Cosine Similarity",
+                              "value": "cosineSimilarity"
+                            },
+                            {
+                              "label": "Dot Product",
+                              "value": "dotProduct"
+                            }
+                          ]
+                        },
+                        "label": "Vector Field Function",
+                        "type": "select"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "configuration": {
+                "queryConfiguration": {
+                  "queryEntries": [
+                    {
+                      "condition": {
+                        "exists": {
+                          "parameterName": "keywords"
+                        }
+                      },
+                      "clauses": [
+                        {
+                          "occur": "must",
+                          "query": {
+                            "script_score": {
+                              "query": {
+                                "bool": {
+                                  "filter": [
+                                    {
+                                      "bool": {
+                                        "should": [
+                                          {
+                                            "bool": {
+                                              "must_not": [
+                                                {
+                                                  "exists": {
+                                                    "field": "hidden"
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "bool": {
+                                              "must": [
+                                                {
+                                                  "term": {
+                                                    "hidden": false
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "bool": {
+                                        "should": [
+                                          {
+                                            "bool": {
+                                              "must_not": [
+                                                {
+                                                  "exists": {
+                                                    "field": "displayDate"
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "bool": {
+                                              "must_not": [
+                                                {
+                                                  "exists": {
+                                                    "field": "expirationDate"
+                                                  }
+                                                }
+                                              ],
+                                              "must": [
+                                                {
+                                                  "range": {
+                                                    "displayDate_sortable": {
+                                                      "include_lower": true,
+                                                      "include_upper": true,
+                                                      "from": "-9223372036854775808",
+                                                      "to": "${time.current_date|date_format=timestamp}"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "bool": {
+                                              "must": [
+                                                {
+                                                  "range": {
+                                                    "displayDate_sortable": {
+                                                      "include_lower": true,
+                                                      "include_upper": true,
+                                                      "from": "-9223372036854775808",
+                                                      "to": "${time.current_date|date_format=timestamp}"
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "range": {
+                                                    "expirationDate_sortable": {
+                                                      "include_lower": true,
+                                                      "include_upper": true,
+                                                      "from": "${time.current_date|date_format=timestamp}",
+                                                      "to": "9223372036854775807"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "bool": {
+                                        "should": [
+                                          {
+                                            "bool": {
+                                              "must_not": [
+                                                {
+                                                  "term": {
+                                                    "entryClassName": {
+                                                      "value": "com.liferay.journal.model.JournalArticle"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            "bool": {
+                                              "must": [
+                                                {
+                                                  "term": {
+                                                    "entryClassName": {
+                                                      "value": "com.liferay.journal.model.JournalArticle"
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "term": {
+                                                    "head": {
+                                                      "value": true
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "terms": {
+                                        "entryClassName": [
+                                          {
+                                            "label": "com.liferay.blogs.model.BlogsEntry",
+                                            "value": "com.liferay.blogs.model.BlogsEntry"
+                                          },
+                                          {
+                                            "label": "com.liferay.journal.model.JournalArticle",
+                                            "value": "com.liferay.journal.model.JournalArticle"
+                                          },
+                                          {
+                                            "label": "com.liferay.knowledge.base.model.KBArticle",
+                                            "value": "com.liferay.knowledge.base.model.KBArticle"
+                                          },
+                                          {
+                                            "label": "com.liferay.message.boards.model.MBMessage",
+                                            "value": "com.liferay.message.boards.model.MBMessage"
+                                          },
+                                          {
+                                            "label": "com.liferay.wiki.model.WikiPage",
+                                            "value": "com.liferay.wiki.model.WikiPage"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "term": {
+                                        "status": {
+                                          "value": 0
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "exists": {
+                                        "field": "text_embedding_${ml.text_embeddings.vector_dimensions}_${context.language_id}"
+                                      }
+                                    }
+                                  ]
+                                }
+                              },
+                              "boost": "${configuration.boost}",
+                              "min_score": "${configuration.min_score}",
+                              "script": {
+                                "source": "Math.pow((${configuration.vector_field_function}(params.query_vector, 'text_embedding_${ml.text_embeddings.vector_dimensions}_${context.language_id}') + 1), 3)",
+                                "params": {
+                                  "query_vector": "${ml.text_embeddings.keywords_embedding}"
+                                }
+                              }
+                            }
+                          },
+                          "context": "query"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "icon": "custom-field",
+              "category": "semantic search"
+            }
+          },
+          "configurationEntry": {
+            "queryConfiguration": {
+              "queryEntries": [
+                {
+                  "condition": {
+                    "exists": {
+                      "parameterName": "keywords"
+                    }
+                  },
+                  "clauses": [
+                    {
+                      "occur": "must",
+                      "query": {
+                        "script_score": {
+                          "query": {
+                            "bool": {
+                              "filter": [
+                                {
+                                  "bool": {
+                                    "should": [
+                                      {
+                                        "bool": {
+                                          "must_not": [
+                                            {
+                                              "exists": {
+                                                "field": "hidden"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "bool": {
+                                          "must": [
+                                            {
+                                              "term": {
+                                                "hidden": false
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "bool": {
+                                    "should": [
+                                      {
+                                        "bool": {
+                                          "must_not": [
+                                            {
+                                              "exists": {
+                                                "field": "displayDate"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "bool": {
+                                          "must_not": [
+                                            {
+                                              "exists": {
+                                                "field": "expirationDate"
+                                              }
+                                            }
+                                          ],
+                                          "must": [
+                                            {
+                                              "range": {
+                                                "displayDate_sortable": {
+                                                  "include_lower": true,
+                                                  "include_upper": true,
+                                                  "from": "-9223372036854775808",
+                                                  "to": "${time.current_date|date_format=timestamp}"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "bool": {
+                                          "must": [
+                                            {
+                                              "range": {
+                                                "displayDate_sortable": {
+                                                  "include_lower": true,
+                                                  "include_upper": true,
+                                                  "from": "-9223372036854775808",
+                                                  "to": "${time.current_date|date_format=timestamp}"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "range": {
+                                                "expirationDate_sortable": {
+                                                  "include_lower": true,
+                                                  "include_upper": true,
+                                                  "from": "${time.current_date|date_format=timestamp}",
+                                                  "to": "9223372036854775807"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "bool": {
+                                    "should": [
+                                      {
+                                        "bool": {
+                                          "must_not": [
+                                            {
+                                              "term": {
+                                                "entryClassName": {
+                                                  "value": "com.liferay.journal.model.JournalArticle"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "bool": {
+                                          "must": [
+                                            {
+                                              "term": {
+                                                "entryClassName": {
+                                                  "value": "com.liferay.journal.model.JournalArticle"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "term": {
+                                                "head": {
+                                                  "value": true
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "terms": {
+                                    "entryClassName": [
+                                      {
+                                        "label": "com.liferay.blogs.model.BlogsEntry",
+                                        "value": "com.liferay.blogs.model.BlogsEntry"
+                                      },
+                                      {
+                                        "label": "com.liferay.journal.model.JournalArticle",
+                                        "value": "com.liferay.journal.model.JournalArticle"
+                                      },
+                                      {
+                                        "label": "com.liferay.knowledge.base.model.KBArticle",
+                                        "value": "com.liferay.knowledge.base.model.KBArticle"
+                                      },
+                                      {
+                                        "label": "com.liferay.message.boards.model.MBMessage",
+                                        "value": "com.liferay.message.boards.model.MBMessage"
+                                      },
+                                      {
+                                        "label": "com.liferay.wiki.model.WikiPage",
+                                        "value": "com.liferay.wiki.model.WikiPage"
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "term": {
+                                    "status": {
+                                      "value": 0
+                                    }
+                                  }
+                                },
+                                {
+                                  "exists": {
+                                    "field": "text_embedding_${ml.text_embeddings.vector_dimensions}_${context.language_id}"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "boost": 1,
+                          "min_score": 2.4,
+                          "script": {
+                            "source": "Math.pow((cosineSimilarity(params.query_vector, 'text_embedding_${ml.text_embeddings.vector_dimensions}_${context.language_id}') + 1), 3)",
+                            "params": {
+                              "query_vector": "${ml.text_embeddings.keywords_embedding}"
+                            }
+                          }
+                        }
+                      },
+                      "context": "query"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "uiConfigurationValues": {
+            "boost": 1,
+            "vector_field_function": "cosineSimilarity",
+            "min_score": 2.4
+          }
+        }
+      ],
+      "externalReferenceCode": "semantic-search-blueprint"
+    }
+  ]
+}
